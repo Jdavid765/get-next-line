@@ -6,9 +6,18 @@
 /*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 17:06:43 by david             #+#    #+#             */
-/*   Updated: 2025/10/26 11:33:09 by david            ###   ########.fr       */
+/*   Updated: 2025/10/29 19:24:06 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+int	ft_strlen(char *s)
+{
+	int	count;
+
+	count = 0;
+	while(*s++)
+		count++;
+	return(count);
+}
