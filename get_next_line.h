@@ -6,7 +6,7 @@
 /*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 17:07:12 by david             #+#    #+#             */
-/*   Updated: 2025/10/29 19:17:40 by david            ###   ########.fr       */
+/*   Updated: 2025/10/30 16:12:15 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,6 @@
 # define BUFFER_SIZE 100
 #endif
 
-int	ft_strlen(char *s);
+int		ft_strlen(char *s);
+char	*ft_strjoin(char *s1, char *s2);
 #endif
