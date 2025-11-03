@@ -6,7 +6,7 @@
 /*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 17:07:12 by david             #+#    #+#             */
-/*   Updated: 2025/10/30 16:48:16 by david            ###   ########.fr       */
+/*   Updated: 2025/11/03 20:34:28 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,8 @@
 # include <fcntl.h>
 
 int		ft_strlen(char *s);
+int		ft_strchr(char *line);
 char	*ft_strjoin(char *s1, char *s2);
+
+
 #endif

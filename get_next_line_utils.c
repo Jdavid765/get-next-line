@@ -6,7 +6,7 @@
 /*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 17:06:43 by david             #+#    #+#             */
-/*   Updated: 2025/10/30 16:46:43 by david            ###   ########.fr       */
+/*   Updated: 2025/11/03 20:32:58 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,25 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (cpy);
 }
 
+
+int	ft_strchr(char *line)
+{
+	int	x;
+
+	x = 0;
+	while (line[x])
+	{
+		if (line[x] == '\n')
+			return (0);
+		x++;
+	}
+	return (-1);
+}
+
 // int	main(void)
 // {
-// 	char s1[] = "Bonjour david je suis ";
-// 	char s2[] = "paul";
-// 	printf("%s", ft_strjoin(s1, s2));
+// 	char buffer[] = "vide = ";
+// 	char line[] = "je suis l'école 42davida\n vdaivd";
+// 	char *result = ft_strncat(buffer,line);
+// 	printf("%s", result);
 // }

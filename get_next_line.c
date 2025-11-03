@@ -6,7 +6,7 @@
 /*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 17:06:11 by david             #+#    #+#             */
-/*   Updated: 2025/10/30 16:49:26 by david            ###   ########.fr       */
+/*   Updated: 2025/11/03 20:34:13 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,25 +35,26 @@ char	*ft_read(int fd, char *buffer, char *line)
 			return (NULL);
 		buffer[nb_bytes] = '\0';
 		tmp = ft_strjoin(line, buffer);
-		if (!tmp)
-			return (NULL);
-		free(line);
+		free (line);
 		line = tmp;
+		nb_bytes = ft_strchr(line);
 	}
-	return (line);
+	return (buffer);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	*line;
-	char		buffer[BUFFER_SIZE + 1];
+	char		*buffer;
 
+	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!buffer)
+		return (NULL);
 	if (fd < 0)
 		return (NULL);
 	line = malloc(1);
 	if (!line)
 		return (NULL);
-	line[0] = '\0';
 	fd = ft_open(fd);
 	line = ft_read(fd, buffer, line);
 	close (fd);
@@ -64,9 +65,8 @@ int	main(void)
 {
 	int	fd = 1;
 	char *resultat = get_next_line(fd);
-	if(resultat == NULL)
-		printf("Erreur\n");
-	else
-		printf("%s\n", resultat);
+	resultat = get_next_line(fd);
+	resultat = get_next_line(fd);
+	printf("%s\n", resultat);
 	return (0);
 }
