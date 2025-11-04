@@ -6,7 +6,7 @@
 /*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 17:06:43 by david             #+#    #+#             */
-/*   Updated: 2025/11/04 15:32:34 by david            ###   ########.fr       */
+/*   Updated: 2025/11/04 18:25:09 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,17 +79,17 @@ int	ft_strchr(char *line)
 	while (line[x])
 	{
 		if (line[x] == '\n')
-			return (0);
+			return (10);
 		x++;
 	}
-	return (1);
+	return (0);
 }
-
 
 // int	main(void)
 // {
-// 	char	*cpy;
-// 	char line[] = "je suis l'école 42davida\n vdaivd";
-// 	cpy = ft_strcpy(line);
-// 	printf("%s", cpy);
+// 	// char	*cpy;
+// 	// char line[] = "je suis l'école 42davida\n vdaivd";
+// 	// cpy = ft_strcpy(line);
+// 	// printf("%s", cpy);
+	
 // }

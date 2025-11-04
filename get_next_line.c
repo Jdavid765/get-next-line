@@ -6,7 +6,7 @@
 /*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 17:06:11 by david             #+#    #+#             */
-/*   Updated: 2025/11/04 15:46:09 by david            ###   ########.fr       */
+/*   Updated: 2025/11/04 18:36:10 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,24 @@
 
 char	*ft_read(int fd, char *buffer, char *line)
 {
-	int		nb_bytes;
-	char	*tmp;
+	int			nb_bytes;
+	char		*tmp;
 
 	nb_bytes = 1;
 	if (fd < 0 || !buffer || !line)
 		return (NULL);
-	while (nb_bytes != 0)
+	while ((nb_bytes = read(fd, buffer, BUFFER_SIZE)) > 0)
 	{
-		nb_bytes = read(fd, buffer, BUFFER_SIZE);
 		if (nb_bytes == -1)
 			return (NULL);
 		buffer[nb_bytes] = '\0';
-		tmp = ft_strjoin(line,buffer);
+		tmp = ft_strjoin(line, buffer);
 		free(line);
 		line = tmp;
-		nb_bytes = ft_strchr(line);
+		if (line == NULL)
+			return (NULL);
+		if (ft_strchr(line) > 0)
+			break ;
 	}
 	return (line);
 }
@@ -41,6 +43,7 @@ char	*get_next_line(int fd)
 	char		*cpy;
 	static int	position;
 
+	printf("%s", line);
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
 		return (NULL);
@@ -55,8 +58,11 @@ char	*get_next_line(int fd)
 		position = 0;
 	}
 	line = ft_read(fd, buffer, line);
+	if (line == NULL)
+		return (NULL);
+	free(buffer);
 	cpy = ft_strcpy(line, &position);
-	return (cpy);
+	return (line);
 }
 
 int	main(void)
@@ -65,16 +71,18 @@ int	main(void)
 	fd = open("test.txt", O_RDONLY);
 	if (fd == -1)
 		return (-1);
+	int count = 0;
+	// while (count < 10)
+	// {
+	// 	char *result = get_next_line(fd);
+	// 	printf("%s", result);
+	// 	free (result);
+	// 	count++;
+	// }
+	char *resultat = get_next_line(fd);
+	printf("--%s", resultat);
 	char *resultat1 = get_next_line(fd);
-	char *resultat2 = get_next_line(fd);
-	char *resultat3 = get_next_line(fd);
-	char *resultat4 = get_next_line(fd);
-	char *resultat5 = get_next_line(fd);
-	printf("%s", resultat1);
-	printf("%s", resultat2);
-	printf("%s", resultat3);
-	printf("%s", resultat4);
-	printf("%s", resultat5);
+	printf("--%s", resultat1);
 	close(fd);
 	return (0);
 }
