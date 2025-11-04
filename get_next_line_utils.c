@@ -6,11 +6,34 @@
 /*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 17:06:43 by david             #+#    #+#             */
-/*   Updated: 2025/11/03 20:32:58 by david            ###   ########.fr       */
+/*   Updated: 2025/11/04 15:32:34 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+char	*ft_strcpy(char *line, int *position)
+{
+	char	*dest;
+	int		total;
+	char	*start;
+
+	total = ft_strlen(line) + 1;
+	start = malloc(total * sizeof(char));
+	dest = start;
+	while (line[*position] && line[*position] != '\n')
+	{
+		*dest++ = line[*position];
+		(*position)++;
+	}
+	if (line[*position] == '\n')
+	{
+		*dest++ = line[*position];
+		(*position)++;
+	}
+	*dest = '\0';
+	return (start);
+}
 
 int	ft_strlen(char *s)
 {
@@ -48,7 +71,6 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (cpy);
 }
 
-
 int	ft_strchr(char *line)
 {
 	int	x;
@@ -60,13 +82,14 @@ int	ft_strchr(char *line)
 			return (0);
 		x++;
 	}
-	return (-1);
+	return (1);
 }
+
 
 // int	main(void)
 // {
-// 	char buffer[] = "vide = ";
+// 	char	*cpy;
 // 	char line[] = "je suis l'école 42davida\n vdaivd";
-// 	char *result = ft_strncat(buffer,line);
-// 	printf("%s", result);
+// 	cpy = ft_strcpy(line);
+// 	printf("%s", cpy);
 // }
