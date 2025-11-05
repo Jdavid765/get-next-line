@@ -6,7 +6,7 @@
 /*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 17:06:11 by david             #+#    #+#             */
-/*   Updated: 2025/11/05 01:29:04 by david            ###   ########.fr       */
+/*   Updated: 2025/11/05 02:13:31 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ char	*ft_extract(char *line, int *position)
 		*position = 0;
 		return (NULL);
 	}
-	return (line);
 }
 
 char	*ft_next_get_line(int fd, char **line, char *buffer)
@@ -72,6 +71,8 @@ char	*ft_next_get_line(int fd, char **line, char *buffer)
 	free(buffer);
 	if (*line == NULL)
 		return (free(*line), NULL);
+	if ((*line)[0] == '\0')
+		return (free(*line), *line = NULL, NULL);
 	cpy = ft_strcpy(*line, &position);
 	if (!cpy)
 		return (free(*line), *line = NULL, NULL);
