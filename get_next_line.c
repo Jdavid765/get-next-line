@@ -6,7 +6,7 @@
 /*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 17:06:11 by david             #+#    #+#             */
-/*   Updated: 2025/11/04 18:36:10 by david            ###   ########.fr       */
+/*   Updated: 2025/11/05 01:29:04 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,63 @@ char	*ft_read(int fd, char *buffer, char *line)
 	nb_bytes = 1;
 	if (fd < 0 || !buffer || !line)
 		return (NULL);
-	while ((nb_bytes = read(fd, buffer, BUFFER_SIZE)) > 0)
+	while (nb_bytes > 0 && ft_strchr(line) == 0)
 	{
+		nb_bytes = read(fd, buffer, BUFFER_SIZE);
 		if (nb_bytes == -1)
-			return (NULL);
+			return (free(line), NULL);
 		buffer[nb_bytes] = '\0';
 		tmp = ft_strjoin(line, buffer);
+		if (!tmp)
+			return (free(line), NULL);
 		free(line);
 		line = tmp;
-		if (line == NULL)
-			return (NULL);
-		if (ft_strchr(line) > 0)
-			break ;
 	}
 	return (line);
+}
+
+char	*ft_extract(char *line, int *position)
+{
+	char	*stake;
+
+	if (line && line[*position] != '\0')
+	{
+		stake = ft_strdup(line, *position);
+		free(line);
+		*position = 0;
+		return (stake);
+	}
+	else
+	{
+		free(line);
+		*position = 0;
+		return (NULL);
+	}
+	return (line);
+}
+
+char	*ft_next_get_line(int fd, char **line, char *buffer)
+{
+	static int	position;
+	char		*cpy;
+
+	if (!(*line))
+	{
+		*line = malloc(1);
+		if (!(*line))
+			return (NULL);
+		(*line)[0] = '\0';
+		position = 0;
+	}
+	*line = ft_read(fd, buffer, *line);
+	free(buffer);
+	if (*line == NULL)
+		return (free(*line), NULL);
+	cpy = ft_strcpy(*line, &position);
+	if (!cpy)
+		return (free(*line), *line = NULL, NULL);
+	*line = ft_extract(*line, &position);
+	return (cpy);
 }
 
 char	*get_next_line(int fd)
@@ -41,48 +84,33 @@ char	*get_next_line(int fd)
 	static char	*line;
 	char		*buffer;
 	char		*cpy;
-	static int	position;
 
-	printf("%s", line);
+	cpy = NULL;
+	if (fd < 0 || BUFFER_SIZE < 0)
+		return (NULL);
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
 		return (NULL);
-	if (fd < 0)
-		return (NULL);
-	if (!line)
-	{
-		line = malloc(1);
-		if (!line)
-			return (NULL);
-		line[0] = '\0';
-		position = 0;
-	}
-	line = ft_read(fd, buffer, line);
-	if (line == NULL)
-		return (NULL);
-	free(buffer);
-	cpy = ft_strcpy(line, &position);
-	return (line);
+	cpy = ft_next_get_line(fd, &line, buffer);
+	if (!cpy)
+		return (free(line), line = NULL, NULL);
+	return (cpy);
 }
 
-int	main(void)
-{
-	int	fd;
-	fd = open("test.txt", O_RDONLY);
-	if (fd == -1)
-		return (-1);
-	int count = 0;
-	// while (count < 10)
-	// {
-	// 	char *result = get_next_line(fd);
-	// 	printf("%s", result);
-	// 	free (result);
-	// 	count++;
-	// }
-	char *resultat = get_next_line(fd);
-	printf("--%s", resultat);
-	char *resultat1 = get_next_line(fd);
-	printf("--%s", resultat1);
-	close(fd);
-	return (0);
-}
+// int	main(void)
+// {
+// 	int	fd;
+// 	fd = open("test.txt", O_RDONLY);
+// 	if (fd == -1)
+// 		return (-1);
+// 	int count = 0;
+// 	while (count < 10)
+// 	{
+// 		char *result = get_next_line(fd);
+// 		printf("%s", result);
+// 		free (result);
+// 		count++;
+// 	}
+// 	close(fd);
+// 	return (0);
+// }
